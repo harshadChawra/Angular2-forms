@@ -17,24 +17,38 @@ export class ReactiveFormComponent implements OnInit{
     ngOnInit(){
         //build our form
         this.form = this.fb.group({
-            name: [''],
-            username: ['']
+            name: ['', [Validators.minLength(3), Validators.maxLength(6)]],
+            username: ['', Validators.minLength(3)]
         });
 
         //watch for changes and validate
         this.form.valueChanges.subscribe(data => {
             console.log(data);
 
+            this.nameError='';
+            this.usernameError='';
+
             //validate each field
             let name = this.form.get('name');
             let username = this.form.get('username');
 
             if(name.invalid && name.dirty){
+                if(name.errors['required'])
                 this.nameError = 'Name is required';
+
+                if(name.errors['minlength'])
+                this.nameError='Name must be atleast 3 characters';
+
+                if(name.errors['maxlength'])
+                this.nameError='Name can\'t be more than 6 characters';
             }
 
             if(username.invalid && username.dirty){
-                this.usernameError = 'Username is required';
+                if(username.errors['required'])
+                this.usernameError = 'Userame is required';
+
+                if(username.errors['minlength'])
+                this.usernameError='Username must be atleast 3 characters';
             }
         });
     }

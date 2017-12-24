@@ -19,20 +19,30 @@ var ReactiveFormComponent = (function () {
         var _this = this;
         //build our form
         this.form = this.fb.group({
-            name: [''],
-            username: ['']
+            name: ['', [forms_1.Validators.minLength(3), forms_1.Validators.maxLength(6)]],
+            username: ['', forms_1.Validators.minLength(3)]
         });
         //watch for changes and validate
         this.form.valueChanges.subscribe(function (data) {
             console.log(data);
+            _this.nameError = '';
+            _this.usernameError = '';
             //validate each field
             var name = _this.form.get('name');
             var username = _this.form.get('username');
             if (name.invalid && name.dirty) {
-                _this.nameError = 'Name is required';
+                if (name.errors['required'])
+                    _this.nameError = 'Name is required';
+                if (name.errors['minlength'])
+                    _this.nameError = 'Name must be atleast 3 characters';
+                if (name.errors['maxlength'])
+                    _this.nameError = 'Name can\'t be more than 6 characters';
             }
             if (username.invalid && username.dirty) {
-                _this.usernameError = 'Username is required';
+                if (username.errors['required'])
+                    _this.usernameError = 'Userame is required';
+                if (username.errors['minlength'])
+                    _this.usernameError = 'Username must be atleast 3 characters';
             }
         });
     };
