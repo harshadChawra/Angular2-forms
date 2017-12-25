@@ -11,9 +11,9 @@ import { Component } from '@angular/core';
       <p>{{ message }}</p>
     </div>-->
 
-    <h2>Template Form</h2>
+    <!--<h2>Template Form</h2>
 
-    <template-form></template-form>
+    <template-form></template-form>-->
 
     <h2>Reactive form</h2>
 
